@@ -7,7 +7,5 @@ public class App {
     public static void main(String[] args) {
         Dialogue dialogue = new DialogueConsole();
         dialogue.start();
-
-
     }
 }

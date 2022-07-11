@@ -1,22 +1,16 @@
 package ru.javarush.dialogue;
 
 public enum Menu {
-    EXIT(0, "Exit"),
-    ENCRYPT(1, "Encryption"),
-    DECRYPT_WITH_KEY(2, "Decryption with key");
-    //DECRYPT_BRUTE_FORCE(3, "Decryption with brute force"),
-    //DECRYPT_STATISTICAL_ANALYSIS(4, "Decryption with statistical analysis");
+    EXIT("Exit"),
+    ENCRYPT("Encryption"),
+    DECRYPT_WITH_KEY("Decryption with key"),
+    DECRYPT_BRUTE_FORCE("Decryption with brute force");
+    //DECRYPT_STATISTICAL_ANALYSIS("Decryption with statistical analysis");
 
-    private final int order;
     private final String name;
 
-    Menu(int order, String name) {
-        this.order = order;
+    Menu(String name) {
         this.name = name;
-    }
-
-    public int getOrder() {
-        return order;
     }
 
     public String getName() {
@@ -25,7 +19,7 @@ public enum Menu {
 
     public static Menu getMenuByNumber(int number) {
         for(Menu menu: values()) {
-            if(menu.getOrder() == number) {
+            if(menu.ordinal() == number) {
                 return menu;
             }
         }
