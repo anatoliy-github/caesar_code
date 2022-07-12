@@ -1,5 +1,7 @@
 package ru.javarush.operation;
 
+import ru.javarush.operation.exception.HackerException;
+
 import java.io.*;
 import java.util.List;
 
@@ -29,7 +31,7 @@ public class Operation {
         }
     }
 
-    public void decryption(String pathToReadFile,String pathToWriteFile, int keyEncryption) {
+    public void decryption(String pathToReadFile,String pathToWriteFile, int keyEncryption) throws HackerException {
         try(BufferedReader reader = new BufferedReader(new FileReader(pathToReadFile));
             BufferedWriter writer = new BufferedWriter(new FileWriter(pathToWriteFile)) ) {
             List<Character> alphabet = alphabets.getListAlphabetByKey("English");
@@ -42,6 +44,8 @@ public class Operation {
                         int key = (alphabet.size() + i - keyEncryption) % alphabet.size();
                         ch =alphabet.get(key);
                         break;
+                    } else {
+                        throw new HackerException("Symbol not found in alphabet. Are you hacker? Program is stopped");
                     }
                 }
                 writer.append(ch);

@@ -1,7 +1,10 @@
 package ru.javarush.dialogue;
 
 import ru.javarush.operation.Operation;
+import ru.javarush.operation.exception.HackerException;
+import ru.javarush.validation.FileValidation;
 
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
@@ -63,11 +66,9 @@ public class DialogueConsole implements Dialogue {
 
     private void encryptionMode() {
         System.out.println(ANSI_BLUE + "The encryption mode is selected" + ANSI_RESET);
-        System.out.print("Enter path to file: ");
-        String pathToInputFile = scanner.next();
-        //TODO output file validation
-        System.out.print("Enter the path for output file: ");
-        String pathToOutputFile = scanner.next();
+        String pathToInputFile = getInputFile();
+        String pathToOutputFile = getOutputFile();
+
         boolean tryAgain;
         int keyEncryption = 0;
         do {
@@ -86,12 +87,10 @@ public class DialogueConsole implements Dialogue {
     }
 
     private void decryptionMode() {
-        System.out.println("Selected decryption mode");
-        System.out.print("Enter path to file: ");
-        String pathToInputFile = scanner.next();
-        //TODO output file validation
-        System.out.print("Enter the path for output file: ");
-        String pathToOutputFile = scanner.next();
+        System.out.println(ANSI_BLUE + "Selected decryption mode" + ANSI_RESET);
+        String pathToInputFile = getInputFile();
+        String pathToOutputFile = getOutputFile();
+
         boolean tryAgain;
         int keyDecryption = 0;
         do {
@@ -104,9 +103,41 @@ public class DialogueConsole implements Dialogue {
                 tryAgain = true;
             }
         } while(tryAgain);
+        try {
+            operation.decryption(pathToInputFile, pathToOutputFile, keyDecryption);
+            System.out.println(ANSI_BLUE + "Decryption done!" + ANSI_RESET);
+        } catch(HackerException e) {
+            System.out.println(ANSI_RED + e.getMessage() + ANSI_RESET);
+        }
 
-        operation.decryption(pathToInputFile, pathToOutputFile, keyDecryption);
-        System.out.println(ANSI_BLUE + "Decryption done!" + ANSI_RESET);
+    }
+
+    private String getInputFile() {
+        String pathToInputFIle;
+        while(true) {
+            System.out.print("Enter path to file: ");
+            pathToInputFIle = scanner.next();
+            if(FileValidation.acceptInput(Path.of(pathToInputFIle))) {
+                break;
+            } else {
+                System.out.println(ANSI_RED + "File not found. Try again" + ANSI_RESET);
+            }
+        }
+        return pathToInputFIle;
+    }
+
+    private String getOutputFile() {
+        String pathToOutputFile;
+        while(true) {
+            System.out.print("Enter the path for output file: ");
+            pathToOutputFile = scanner.next();
+            if(FileValidation.acceptOutput(Path.of(pathToOutputFile))) {
+                break;
+            } else {
+                System.out.println(ANSI_RED + "Invalid file path. Try again" + ANSI_RESET);
+            }
+        }
+        return pathToOutputFile;
     }
 
     private void decryptionBruteForce() {
