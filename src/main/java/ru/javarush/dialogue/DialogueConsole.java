@@ -18,13 +18,12 @@ public class DialogueConsole implements Dialogue {
 
     private static final String WELCOME =
             """
-               *******************
-               ***PROGRAM START***
-               *******************
+               ***************************
+                ***ENCRYPT/DECRYPT APP***
+               ***************************
                """;
 
     private final Scanner scanner = new Scanner(System.in);
-
     private Operation operation = new Operation();
 
     public void start() {
@@ -109,7 +108,12 @@ public class DialogueConsole implements Dialogue {
         } catch(HackerException e) {
             System.out.println(ANSI_RED + e.getMessage() + ANSI_RESET);
         }
+    }
 
+    private void decryptionBruteForce() {
+        System.out.println(ANSI_BLUE + "Selected brute force decryption mode" + ANSI_RESET);
+        String pathToInputFile = getInputFile();
+        //TODO Brute Force method
     }
 
     private String getInputFile() {
@@ -140,9 +144,4 @@ public class DialogueConsole implements Dialogue {
         return pathToOutputFile;
     }
 
-    private void decryptionBruteForce() {
-        System.out.println("decryptionBruteForce");
-    }
-
-    
 }

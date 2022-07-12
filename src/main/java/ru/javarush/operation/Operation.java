@@ -45,7 +45,7 @@ public class Operation {
                         ch =alphabet.get(key);
                         break;
                     } else {
-                        throw new HackerException("Symbol not found in alphabet. Are you hacker? Program is stopped");
+                        throw new HackerException("Symbol "+ ch +" not found in alphabet. Program is stopped");
                     }
                 }
                 writer.append(ch);
